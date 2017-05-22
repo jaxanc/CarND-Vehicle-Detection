@@ -50,19 +50,19 @@ Here is an example using the `HSV` color space and HOG parameters of `orientatio
 
 I tried various combinations of parameters (`orientations`, `pixels_per_cell` and `cells_per_block`) with the aim to minimise the number of features and maximise contrast between **car** and **not car** images.
 
-`orientations=8` was chosen as this allows the directions to be defined in 45 degrees angle thus picking out the horizontal, vertical and diagonal lines and seems to be the most intuitive.
+`orientations=9` was chosen. Increasing it increases the number of features but no noticible gain in accuracy, thus left at default.
 
 `pixels_per_cell=(8, 8)` was chosen to minimise the number of features. Having this number less does outline the car better but exponentially increases the number of features.
 
-I found larger number of `cells_per_block` helped to create a clearer HOG image but again, dramatically increases the number of features. `cells_per_block=(3, 3)` works well.
+I found larger number of `cells_per_block` helped to create a clearer HOG image but again, dramatically increases the number of features. `cells_per_block=(2, 2)` works well.
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a linear SVM in the `training_classifier.ipynb` IPython notebook. Following steps taught during lessons; data was scaled and split into training and testing set. Parameter tuning was attempted but with no success. It seems to always return the lowest C parameter no matter how small I make the parameter sets to start with. Using a really small C parameter to fit produced worst result than with C = 1.0. Thus the default `LinearSVC()` was used and the resulting test accuracy is around 99.2%. The classifier data is saved into `svc_pickle.p` for later use.
 
-###Sliding Window Search
+### Sliding Window Search
 
-####1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
+#### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
 I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
 
