@@ -14,9 +14,9 @@ The goals / steps of this project are the following:
 [image2]: ./output_images/HOG_example.png
 [image3]: ./output_images/sliding_windows.png
 [image4]: ./output_images/sliding_window.png
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
+[image5]: ./output_images/bboxes_and_heat.png
+[image6]: ./output_images/labels_map.png
+[image7]: ./output_images/output_bboxes.png
 [video1]: ./project_video.mp4
 
 ## [Rubric Points](https://review.udacity.com/#!/rubrics/513/view)
@@ -64,7 +64,7 @@ I trained a linear SVM in the `training_classifier.ipynb` IPython notebook. Foll
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-The implementation is located in the `search_and_classify.ipynb` IPython notebook. I have implemted using the `find_cars()` function as taught in class. The scales has been found by trial and error on the test images. The `find_cars()` were run twice, one with a smaller scale and one with larger scale. The results are combined for the heat map. The overlap (`cells_per_step`) is inverse proportional to scale. The smaller the box the less overlap it needs.
+The implementation is located in the `search_and_classify.ipynb` IPython notebook. I have implemted using the `find_cars()` function as taught in class. The scales has been found by trial and error on the test images. The `find_cars()` were run three times, one with a smaller scale, a medium scale and one with larger scale. The results are combined for the heat map. The overlap (`cells_per_step`) is inverse proportional to scale. The smaller the box the less overlap it needs.
 
 ![alt text][image3]
 
@@ -81,10 +81,11 @@ I optimized the performance of the classifier by implementing the **Hog Sub-samp
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+
+Here's a [link to my video result](./output_images/processed_project_video.mp4)
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
 
@@ -100,11 +101,12 @@ Here's an example result showing the heatmap from a series of frames of video, t
 ### Here the resulting bounding boxes are drawn onto the last frame in the series:
 ![alt text][image7]
 
-
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+I can't seem to correctly adjust the `find_cars()` function to read all horizontal pixels. There are some pixels on the right that are not part of the sliding window. This causes the white car not to be correctly read if it is close to the right edge.
+
+To make it more robust, the sliding window method needs to be improved to have more than three windows.
