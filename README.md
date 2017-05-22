@@ -12,8 +12,8 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 [image1]: ./output_images/car_not_car.png
 [image2]: ./output_images/HOG_example.png
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
+[image3]: ./output_images/sliding_windows.png
+[image4]: ./output_images/sliding_window.png
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
 [image7]: ./examples/output_bboxes.png
@@ -64,20 +64,23 @@ I trained a linear SVM in the `training_classifier.ipynb` IPython notebook. Foll
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+The implementation is located in the `search_and_classify.ipynb` IPython notebook. I have implemted using the `find_cars()` function as taught in class. The scales has been found by trial and error on the test images. The `find_cars()` were run twice, one with a smaller scale and one with larger scale. The results are combined for the heat map. The overlap (`cells_per_step`) is inverse proportional to scale. The smaller the box the less overlap it needs.
 
 ![alt text][image3]
 
-####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
+#### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+Ultimately I searched on two scales using HLS 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
 
 ![alt text][image4]
+
+I optimized the performance of the classifier by implementing the **Hog Sub-sampling Window Search** method as taught in class. False positives are minimised with multiple detection by making a heat map.
+
 ---
 
 ### Video Implementation
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
+#### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
 Here's a [link to my video result](./project_video.mp4)
 
 
@@ -96,7 +99,6 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ### Here the resulting bounding boxes are drawn onto the last frame in the series:
 ![alt text][image7]
-
 
 
 ---
